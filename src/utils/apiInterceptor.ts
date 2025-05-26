@@ -5,14 +5,13 @@ function configInterceptors() {
   const requestInterceptor = (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem('family-token');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `mytoken ${token}`;
     }
     return config;
   };
   const responseInterceptor = (response: AxiosResponse) => {
     return response;
   };
-
   const errorInterceptor = (error: any) => {
     if (error.response && error.response.status === 401) {
       localStorage.removeItem('family-token');

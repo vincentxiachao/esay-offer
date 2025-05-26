@@ -6,9 +6,9 @@ export default function Layout() {
   return (
     <DashboardLayout>
       <PageContainer>
-        <Box>
+        <main>
           <Outlet />
-        </Box>
+        </main>
       </PageContainer>
     </DashboardLayout>
   );

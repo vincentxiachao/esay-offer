@@ -8,11 +8,15 @@ import {
   redirect,
 } from 'react-router-dom';
 import Layout from './layouts/DashboardLayout.tsx';
-import { Home } from './pages/home/Home.tsx';
-// 引入 ErrorPage 组件
+import { Home } from './pages/home/HomePage.tsx';
+import { SchedulesPage } from './pages/schedules/SchedulesPage.tsx';
 import { ErrorPage } from './pages/error/ErrorPage.tsx';
 import { Provider } from 'react-redux';
 import { store as rootStore } from './store';
+import react from '@vitejs/plugin-react';
+import { I18nextProvider } from 'react-i18next';
+// 为了解决找不到模块声明文件的问题，添加类型断言
+import i18next from './i18n.ts';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +31,11 @@ const router = createBrowserRouter([
             path: 'home',
             Component: Home,
           },
+          {
+            index: true,
+            path: 'familySchedule',
+            Component: SchedulesPage,
+          },
         ],
       },
     ],
@@ -37,9 +46,11 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={rootStore}>
-      {/* 假设 RouterProvider 是应用的路由组件 */}
-      <RouterProvider router={router} />
-    </Provider>
+    <I18nextProvider i18n={i18next}>
+      <Provider store={rootStore}>
+        {/* 假设 RouterProvider 是应用的路由组件 */}
+        <RouterProvider router={router} />
+      </Provider>
+    </I18nextProvider>
   </StrictMode>
 );

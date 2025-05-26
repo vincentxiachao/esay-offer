@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { Provider, useSelector } from 'react-redux';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { RootState, store } from './store';
@@ -11,12 +11,19 @@ import {
   selectFavoriteListLength,
   seletListLength,
 } from './features/moments/momentsListSlice';
-
+import i18n from './i18n';
+import { useTranslation } from 'react-i18next';
 // 假设 store 导出了 RootState 类型
 function App() {
-  const [count, setCount] = useState(0);
+  const { t } = useTranslation();
+  const location = useLocation();
+  const urlParams = new URLSearchParams(location.search);
 
-  // 正确使用 RootState 类型
+  // 获取单个参数的值
+  const lang = urlParams.get('lang') || 'en';
+  useEffect(() => {
+    i18n.changeLanguage(lang);
+  }, [lang]);
   const imageCount = useSelector(seletListLength);
   const favoriteImageCount = useSelector(selectFavoriteListLength);
   const sideNav: Navigation = [
@@ -26,7 +33,7 @@ function App() {
     },
     {
       segment: 'home', // This will be the segment in the URL, e.g. /hom
-      title: `Home (${favoriteImageCount}/${imageCount})`,
+      title: `${t('home')}(${favoriteImageCount}/${imageCount})`,
       icon: <DashboardIcon />,
     },
     {
@@ -36,8 +43,9 @@ function App() {
     },
   ];
   const BRANDING = {
-    title: 'My Toolpad Core App',
+    title: 'ONE Family',
   };
+
   return (
     <ReactRouterAppProvider navigation={sideNav} branding={BRANDING}>
       <Outlet />
