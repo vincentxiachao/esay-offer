@@ -9,7 +9,7 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectMomentsList,
@@ -18,6 +18,7 @@ import {
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { AppDispatch } from '../../store';
+import { useDebounce } from '../../utils/hooks/useDebounce';
 export function MomentView() {
   const images: Iimage[] = useSelector(selectMomentsList);
   const [openedItem, setOpenedItem] = useState({
@@ -30,6 +31,16 @@ export function MomentView() {
     setOpen(false);
   };
   const dispatch = useDispatch<AppDispatch>();
+
+  const [toggleFav, setToggleFav] = useState<Iimage | null>(null); // [toggleFav, setToggleFav] = useState<boolean>(false) [toggleFav, setToggleFav] = useState<boolean>(fals
+  const debounceToggleFn = useDebounce((item: Iimage) => {
+    handleToggleFavorite(item);
+  }, 100);
+  useEffect(() => {
+    if (toggleFav !== null) {
+      debounceToggleFn(toggleFav);
+    }
+  }, [toggleFav]);
   function handleImageClick(item: Iimage) {
     setOpen(true);
     setOpenedItem({ title: item.title, time: item.time, url: item.url });
@@ -56,7 +67,7 @@ export function MomentView() {
                 <IconButton
                   sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                   aria-label={`info about ${item.title}`}
-                  onClick={() => handleToggleFavorite(item)}
+                  onClick={() => setToggleFav(item)}
                 >
                   {item.isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                 </IconButton>
