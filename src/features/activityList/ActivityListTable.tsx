@@ -17,7 +17,15 @@ export function ActivityListTable({
   }, []);
   const activityList = useSelector(selectActivityList);
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70, flex: 0 },
+    {
+      field: 'id',
+      headerName: 'ID',
+      width: 70,
+      flex: 0,
+      sortComparator: (a, b) => {
+        return parseInt(a) - parseInt(b);
+      },
+    },
     { field: 'title', headerName: 'Title', width: 130, flex: 1 },
     { field: 'time', headerName: 'Time', width: 130, flex: 1 },
     {
@@ -28,17 +36,20 @@ export function ActivityListTable({
       flex: 1,
       width: 160,
       valueGetter: (value: string[], row) =>
-        value.map((paticipant) => paticipant).join(', '), // Assuming each participant has firstName and lastName properties in the dat
+        value ? value.map((paticipant) => paticipant).join(', ') : '',
     },
   ];
   const paginationModel = { page: 0, pageSize: 5 };
   return (
-    <Paper sx={{ height: 400, width: '100%' }}>
+    <Paper className='h-full'>
       <DataGrid
         rows={activityList}
         columns={columns}
+        onRowSelectionModelChange={(newRowSelectionModel) => {
+          handleSelectedRows([...newRowSelectionModel.ids]);
+        }}
         initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[5, 10, 20]}
         checkboxSelection
         sx={{ border: 0 }}
       />

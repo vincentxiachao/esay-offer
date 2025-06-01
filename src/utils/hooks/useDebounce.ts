@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 export const useDebounce = (cb: (args?: any) => void, delay: number = 500) => {
-  // 明确 timerRef 的类型
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const debounceCb = (...args: any) => {

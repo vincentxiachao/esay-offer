@@ -1,16 +1,16 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Iimage } from '../../interfaces/image';
-import { get, post } from '../../utils/apiInterceptor';
+import { get, patch, post, put } from '../../utils/apiInterceptor';
 export const getMomentsList = createAsyncThunk('getMomentsList', async () => {
   return get<Iimage[]>('getMomentsList');
 });
 export const toggleFavorite = createAsyncThunk(
   'toggleFavorite',
   async (params: { id: number; isFavorite: boolean }) => {
-    return post('toggleFavorite', {
-      id: params.id,
+    const res = patch(`getMomentsList/${params.id}`, {
       isFavorite: params.isFavorite,
     });
+    return res;
   }
 );
 const momentsListSlice = createSlice({
@@ -39,6 +39,7 @@ const momentsListSlice = createSlice({
         if (index !== -1) {
           state[index].isFavorite = !state[index].isFavorite;
         }
+        return state;
       }
     );
   },

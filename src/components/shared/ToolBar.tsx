@@ -1,3 +1,4 @@
+import { Card, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import SvgIcon from '@mui/material/SvgIcon';
 
@@ -10,6 +11,7 @@ export default function ToolBar({ buttonConfigs }: ToolBarProps) {
           {item.name}
         </Button>
       ))}
+      <TextField size='small' label='Search' variant='outlined' type='search' />
     </main>
   );
 }

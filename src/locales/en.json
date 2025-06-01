@@ -1,4 +1,13 @@
 {
   "welcome": "Welcome",
-  "home": "Home"
+  "home": "Home",
+  "username": "Username",
+  "password": "Password",
+  "login": "Login",
+  "logout": "Logout",
+  "register": "Register",
+  "forgotPassword": "Forgot Password",
+  "resetPassword": "Reset Password",
+  "sendResetLink": "Send Reset Link",
+  "newPassword": "New Password"
 }

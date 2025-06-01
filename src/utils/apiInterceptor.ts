@@ -32,3 +32,11 @@ export const post = async (url: string, data: Record<any, any>) => {
   const res = await apiClient.post(url, data);
   return res.data;
 };
+export const put = async (url: string, data: Record<any, any>) => {
+  const res = await apiClient.put(url, data);
+  return res.data;
+};
+export const patch = async (url: string, data: Record<any, any>) => {
+  const res = await apiClient.patch(url, data);
+  return res.data;
+};

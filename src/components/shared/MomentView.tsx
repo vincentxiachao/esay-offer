@@ -35,12 +35,12 @@ export function MomentView() {
   const [toggleFav, setToggleFav] = useState<Iimage | null>(null); // [toggleFav, setToggleFav] = useState<boolean>(false) [toggleFav, setToggleFav] = useState<boolean>(fals
   const debounceToggleFn = useDebounce((item: Iimage) => {
     handleToggleFavorite(item);
-  }, 100);
-  useEffect(() => {
-    if (toggleFav !== null) {
-      debounceToggleFn(toggleFav);
-    }
-  }, [toggleFav]);
+  }, 300);
+  // useEffect(() => {
+  //   if (toggleFav !== null) {
+  //     debounceToggleFn(toggleFav);
+  //   }
+  // }, [toggleFav]);
   function handleImageClick(item: Iimage) {
     setOpen(true);
     setOpenedItem({ title: item.title, time: item.time, url: item.url });
@@ -67,7 +67,7 @@ export function MomentView() {
                 <IconButton
                   sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                   aria-label={`info about ${item.title}`}
-                  onClick={() => setToggleFav(item)}
+                  onClick={() => debounceToggleFn(item)}
                 >
                   {item.isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                 </IconButton>

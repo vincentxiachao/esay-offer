@@ -5,6 +5,7 @@ import { Provider, useSelector } from 'react-redux';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { RootState, store } from './store';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FamilyRestroomOutlinedIcon from '@mui/icons-material/FamilyRestroomOutlined';
 import type { Navigation } from '@toolpad/core';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router';
 import {
@@ -21,9 +22,9 @@ function App() {
 
   // 获取单个参数的值
   const lang = urlParams.get('lang') || 'en';
-  useEffect(() => {
-    i18n.changeLanguage(lang);
-  }, [lang]);
+  // useEffect(() => {
+  //   i18n.changeLanguage(lang);
+  // }, [lang]);
   const imageCount = useSelector(seletListLength);
   const favoriteImageCount = useSelector(selectFavoriteListLength);
   const sideNav: Navigation = [
@@ -40,6 +41,11 @@ function App() {
       segment: 'familySchedule',
       title: 'Family Trip Schedule',
       icon: <ShoppingCartIcon />,
+    },
+    {
+      segment: 'myFamily',
+      title: 'My Family',
+      icon: <FamilyRestroomOutlinedIcon />,
     },
   ];
   const BRANDING = {
