@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Stepper,
   Step,
@@ -8,122 +8,109 @@ import {
   TextField,
   Box,
 } from '@mui/material';
+import { RegisterRoleSelection } from '../../features/account/components/RegisterRoleSelection';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  registerNewUser,
+  selectAllRrequiredBasicInfoFilled,
+  selectIsPasswordValid,
+  selectIsRoleSelected,
+} from '../../features/account/registerSlice';
+import { RegisterBasicInfo } from '../../features/account/components/RegisterBasicInfo';
+import { RegisterPassword } from '../../features/account/components/RegisterPassword';
+import { RegisterConfirm } from '../../features/account/components/RegisterConfirm';
+import { useDebounce } from '../../utils/hooks/useDebounce';
+import { AppDispatch } from '../../store';
 
 const steps = ['Role Selection', 'Basic Info', 'Set Password', 'Confirmation'];
-
 export default function RegisterPage() {
+  const isRoleSelected: boolean = useSelector(selectIsRoleSelected);
+  const isBasicInfoFilled = useSelector(selectAllRrequiredBasicInfoFilled);
+  const isPasswordFilled = useSelector(selectIsPasswordValid);
+  const [disableNext, setDisableNext] = useState(true);
   const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-
+  const dispatch = useDispatch<AppDispatch>();
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
+  const handleSubmit = () => {
+    dispatch(registerNewUser());
+  };
 
+  const debounceSubmit = useDebounce(handleSubmit, 500);
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+  const getStepTitle = (step: number) => {
+    switch (step) {
+      case 0:
+        return 'Tell us about yourself ';
+      case 1:
+        return 'More information about yourself';
+      case 2:
+        return 'Set Password';
+      case 3:
+        return 'Confirmation';
+      default:
+        return 'Unknown step';
+    }
   };
 
   const getStepContent = (step: number) => {
     switch (step) {
+      case 0:
+        return <RegisterRoleSelection />;
       case 1:
-        return (
-          <>
-            <TextField
-              label='用户名'
-              name='username'
-              value={formData.username}
-              onChange={handleChange}
-              fullWidth
-              margin='normal'
-            />
-            <TextField
-              label='邮箱'
-              name='email'
-              type='email'
-              value={formData.email}
-              onChange={handleChange}
-              fullWidth
-              margin='normal'
-            />
-          </>
-        );
+        return <RegisterBasicInfo />;
       case 2:
-        return (
-          <>
-            <TextField
-              label='密码'
-              name='password'
-              type='password'
-              value={formData.password}
-              onChange={handleChange}
-              fullWidth
-              margin='normal'
-            />
-            <TextField
-              label='确认密码'
-              name='confirmPassword'
-              type='password'
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              fullWidth
-              margin='normal'
-            />
-          </>
-        );
+        return <RegisterPassword />;
       case 3:
-        return (
-          <Typography>
-            用户名: {formData.username} <br />
-            邮箱: {formData.email} <br />
-            请确认以上信息是否正确。
-          </Typography>
-        );
+        return <RegisterConfirm />;
       default:
         return '未知步骤';
     }
   };
-
+  useEffect(() => {
+    if (
+      (isRoleSelected && activeStep === 0) ||
+      (isBasicInfoFilled && activeStep === 1) ||
+      (isPasswordFilled && activeStep === 2) ||
+      activeStep === 3
+    ) {
+      setDisableNext(false);
+    } else {
+      setDisableNext(true);
+    }
+  }, [isRoleSelected, isBasicInfoFilled, isPasswordFilled, activeStep]);
   return (
-    <main>
-      <Typography variant='h4' gutterBottom>
-        注册页面
+    <main className='flex h-8/12 flex-col'>
+      <Typography variant='h2' className='mb-4 flex items-end justify-between'>
+        {getStepTitle(activeStep)}
       </Typography>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <Box sx={{ mt: 2 }}>
+      <Box className='!mb-2 flex-1 flex flex-col'>
         {activeStep === steps.length ? (
-          <Typography>Register Successfully！</Typography>
+          <Typography>Register Successfully!</Typography>
         ) : (
           <>
             {getStepContent(activeStep)}
-            <Box className='flex justify-end !mt-2'>
+            <Stepper activeStep={activeStep}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <Box className='flex justify-end !mt-2 flex-0'>
               {activeStep > 0 && (
                 <Button onClick={handleBack} sx={{ mr: 1 }}>
-                  上一步
+                  Previous
                 </Button>
               )}
               <Button
                 variant='contained'
-                onClick={handleNext}
-                disabled={activeStep === steps.length - 1}
+                onClick={activeStep === 3 ? handleSubmit : handleNext}
+                disabled={disableNext}
               >
                 {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
               </Button>

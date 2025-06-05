@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <DashboardLayout>
       <PageContainer>
-        <main>
+        <main className='h-full'>
           <Outlet />
         </main>
       </PageContainer>

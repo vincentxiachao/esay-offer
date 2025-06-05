@@ -4,7 +4,7 @@ import './index.css';
 import App from './App.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './layouts/DashboardLayout.tsx';
-import { Home } from './pages/home/HomePage.tsx';
+import Home from './pages/home/HomePage.tsx';
 import { SchedulesPage } from './pages/schedules/SchedulesPage.tsx';
 import { ErrorPage } from './pages/error/ErrorPage.tsx';
 import { Provider } from 'react-redux';

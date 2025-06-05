@@ -6,8 +6,10 @@
   "login": "Login",
   "logout": "Logout",
   "register": "Register",
+  "confirmPassword": "Confirm Password",
   "forgotPassword": "Forgot Password",
   "resetPassword": "Reset Password",
   "sendResetLink": "Send Reset Link",
-  "newPassword": "New Password"
+  "newPassword": "New Password",
+  "role": "Role"
 }

@@ -6,6 +6,7 @@ export interface Iaccount {
   avatarUrl: string;
 }
 export interface IregisterInfo {
+  username: string;
   name: string;
   email: string;
   password: string;

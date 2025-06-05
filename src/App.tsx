@@ -6,6 +6,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import { RootState, store } from './store';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FamilyRestroomOutlinedIcon from '@mui/icons-material/FamilyRestroomOutlined';
+import AppRegistrationOutlined from '@mui/icons-material/AppRegistrationOutlined';
 import type { Navigation } from '@toolpad/core';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router';
 import {
@@ -14,6 +15,7 @@ import {
 } from './features/moments/momentsListSlice';
 import i18n from './i18n';
 import { useTranslation } from 'react-i18next';
+
 // 假设 store 导出了 RootState 类型
 function App() {
   const { t } = useTranslation();
@@ -22,9 +24,9 @@ function App() {
 
   // 获取单个参数的值
   const lang = urlParams.get('lang') || 'en';
-  // useEffect(() => {
-  //   i18n.changeLanguage(lang);
-  // }, [lang]);
+  useEffect(() => {
+    i18n.changeLanguage(lang);
+  }, [lang]);
   const imageCount = useSelector(seletListLength);
   const favoriteImageCount = useSelector(selectFavoriteListLength);
   const sideNav: Navigation = [
@@ -46,6 +48,11 @@ function App() {
       segment: 'myFamily',
       title: 'My Family',
       icon: <FamilyRestroomOutlinedIcon />,
+    },
+    {
+      segment: 'register',
+      title: 'Register',
+      icon: <AppRegistrationOutlined />,
     },
   ];
   const BRANDING = {

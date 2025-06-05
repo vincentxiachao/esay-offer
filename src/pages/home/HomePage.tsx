@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { getMomentsList } from '../../features/moments/momentsListSlice';
 import { AppDispatch } from '../../store';
 
-export function Home() {
+export default function Home() {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(getMomentsList());
