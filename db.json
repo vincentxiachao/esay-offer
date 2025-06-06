@@ -5,7 +5,7 @@
       "url": "../public/P_20250208_180616.jpg",
       "title": "Swimming championship",
       "time": "2025-02-08 18:06:16",
-      "isFavorite": false
+      "isFavorite": true
     },
     {
       "id": "1",
@@ -19,14 +19,14 @@
       "url": "../public/P_20250419_114151.jpg",
       "title": "Best Friends",
       "time": "2025-04-19 11:41:51",
-      "isFavorite": true
+      "isFavorite": false
     },
     {
       "id": "3",
       "url": "../public/P_20250506_080635.jpg",
       "title": "Bite by mosquito",
       "time": "2025-05-06 08:06:35",
-      "isFavorite": true
+      "isFavorite": false
     }
   ],
   "toggleFavorite": [

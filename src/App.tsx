@@ -3,16 +3,12 @@ import './App.css';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { Provider, useSelector } from 'react-redux';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import { RootState, store } from './store';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FamilyRestroomOutlinedIcon from '@mui/icons-material/FamilyRestroomOutlined';
 import AppRegistrationOutlined from '@mui/icons-material/AppRegistrationOutlined';
 import type { Navigation } from '@toolpad/core';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router';
-import {
-  selectFavoriteListLength,
-  seletListLength,
-} from './features/moments/momentsListSlice';
+
 import i18n from './i18n';
 import { useTranslation } from 'react-i18next';
 
@@ -27,8 +23,8 @@ function App() {
   useEffect(() => {
     i18n.changeLanguage(lang);
   }, [lang]);
-  const imageCount = useSelector(seletListLength);
-  const favoriteImageCount = useSelector(selectFavoriteListLength);
+  // const imageCount = useSelector(seletListLength);
+  // const favoriteImageCount = useSelector(selectFavoriteListLength);
   const sideNav: Navigation = [
     {
       kind: 'header',
@@ -36,7 +32,7 @@ function App() {
     },
     {
       segment: 'home', // This will be the segment in the URL, e.g. /hom
-      title: `${t('home')}(${favoriteImageCount}/${imageCount})`,
+      title: `${t('home')}`,
       icon: <DashboardIcon />,
     },
     {

@@ -19,8 +19,16 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { AppDispatch } from '../../store';
 import { useDebounce } from '../../utils/hooks/useDebounce';
+import { signal } from '@preact/signals-react';
+
+export const favCounts = signal(0);
+export const totalCounts = signal(0);
 export function MomentView() {
   const images: Iimage[] = useSelector(selectMomentsList);
+  useEffect(() => {
+    favCounts.value = images.filter((item) => item.isFavorite).length;
+    totalCounts.value = images.length;
+  }, [images]);
   const [openedItem, setOpenedItem] = useState({
     title: '',
     time: '',

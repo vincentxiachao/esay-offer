@@ -28,8 +28,8 @@ const registerSlice = createSlice({
       username: '',
       nickName: '',
     },
-    password: null,
-    confirmPassword: null,
+    password: '',
+    confirmPassword: '',
     isLoggedIn: false,
     error: null,
   },
@@ -93,12 +93,11 @@ type registerState = {
     registerInfo: {
       role: string;
       email: string;
-
       username: string;
       nickName?: string;
     };
-    confirmPassword: string | null;
-    password: string | null;
+    confirmPassword: string;
+    password: string;
     isLoggedIn: boolean;
     error: null;
   };
