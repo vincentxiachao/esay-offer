@@ -9,31 +9,39 @@ import {
   selectBasicInfo,
   selectDuplicateBasicInfo,
 } from '../registerSlice';
+import { usePreventDefault } from '../../../utils/hooks/usePreventDefault';
 
 export const RegisterBasicInfo = () => {
   useEffect(() => {
     setInvalidEmail(!validateEmail(email));
-    console.log(validateEmail(email));
   }, []);
   const username = useSelector(selectBasicInfo).username;
   const email = useSelector(selectBasicInfo).email;
   const isDuplicateUsername = useSelector(selectDuplicateBasicInfo);
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [emailTouched, setEmailTouched] = useState(false);
+  const [usernameTouched, setUsernameTouched] = useState(false);
   const basicInfo = useSelector(selectBasicInfo);
   const dispatch = useDispatch<AppDispatch>();
 
-  const onUserNameChange = (val: string) => {
-    dispatch(fillBasicInfo({ ...basicInfo, username: val }));
-  };
-  const onEmailChange = (val: string) => {
+  const onUserNameChange = usePreventDefault(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      dispatch(fillBasicInfo({ ...basicInfo, username: e.target.value }));
+    }
+  );
+  const onEmailChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
     setEmailTouched(true);
-    setInvalidEmail(!validateEmail(val));
-    dispatch(fillBasicInfo({ ...basicInfo, email: val }));
+    setInvalidEmail(!validateEmail(e.target.value));
+    dispatch(fillBasicInfo({ ...basicInfo, email: e.target.value }));
   };
 
   const { t } = useTranslation();
   const onUsernameBlur = () => {
+    setUsernameTouched(true);
     dispatch(checkDuplicateRegisterInfo());
   };
   const onEmailBlur = () => {
@@ -54,11 +62,12 @@ export const RegisterBasicInfo = () => {
             name='username'
             className='mb-4 w-1/2'
             value={username}
-            onChange={(e) => onUserNameChange(e.target.value)}
-            onBlur={(e) => onUsernameBlur()}
+            onChange={(e) => onUserNameChange(e)}
+            onBlur={() => onUsernameBlur()}
             margin='normal'
             variant='standard'
-            error={isDuplicateUsername}
+            required
+            error={(isDuplicateUsername || username === '') && usernameTouched}
             helperText={isDuplicateUsername ? t('duplicateUsername') : ''}
           />
         </Box>
@@ -69,9 +78,10 @@ export const RegisterBasicInfo = () => {
           name='email'
           type='email'
           value={email}
-          onChange={(e) => onEmailChange(e.target.value)}
-          onBlur={(e) => onEmailBlur()}
+          onChange={(e) => onEmailChange(e)}
+          onBlur={() => onEmailBlur()}
           margin='normal'
+          required
           variant='standard'
           error={invalidEmail && emailTouched}
         />

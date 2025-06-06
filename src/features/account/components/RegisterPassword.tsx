@@ -54,7 +54,7 @@ export const RegisterPassword = () => {
     <>
       <h1>{confirmPasswordVisible.value}</h1>
       <main className='flex h-full flex-col content-center justify-center'>
-        <Box className='flex flex-row items-center'>
+        <Box className='flex flex-row items-baseline'>
           <TextField
             label={t('password')}
             name='password'
