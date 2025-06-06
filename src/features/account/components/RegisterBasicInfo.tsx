@@ -1,9 +1,14 @@
-import { Box, IconButton, SvgIcon, TextField, Typography } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../../store';
-import { fillBasicInfo, selectBasicInfo } from '../registerSlice';
+import {
+  checkDuplicateRegisterInfo,
+  fillBasicInfo,
+  selectBasicInfo,
+  selectDuplicateBasicInfo,
+} from '../registerSlice';
 
 export const RegisterBasicInfo = () => {
   useEffect(() => {
@@ -12,7 +17,7 @@ export const RegisterBasicInfo = () => {
   }, []);
   const username = useSelector(selectBasicInfo).username;
   const email = useSelector(selectBasicInfo).email;
-  const [nickName, setNickName] = useState('');
+  const isDuplicateUsername = useSelector(selectDuplicateBasicInfo);
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [emailTouched, setEmailTouched] = useState(false);
   const basicInfo = useSelector(selectBasicInfo);
@@ -28,7 +33,14 @@ export const RegisterBasicInfo = () => {
   };
 
   const { t } = useTranslation();
-
+  const onUsernameBlur = () => {
+    dispatch(checkDuplicateRegisterInfo());
+  };
+  const onEmailBlur = () => {
+    setEmailTouched(true);
+    setInvalidEmail(!validateEmail(email));
+    dispatch(checkDuplicateRegisterInfo());
+  };
   function validateEmail(email: string) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
@@ -36,15 +48,21 @@ export const RegisterBasicInfo = () => {
   return (
     <>
       <main className='flex h-full flex-col content-center justify-center'>
-        <TextField
-          label={t('username')}
-          name='username'
-          className='mb-4 w-1/2'
-          value={username}
-          onChange={(e) => onUserNameChange(e.target.value)}
-          margin='normal'
-          variant='standard'
-        />
+        <Box className='flex flex-cols'>
+          <TextField
+            label={t('username')}
+            name='username'
+            className='mb-4 w-1/2'
+            value={username}
+            onChange={(e) => onUserNameChange(e.target.value)}
+            onBlur={(e) => onUsernameBlur()}
+            margin='normal'
+            variant='standard'
+            error={isDuplicateUsername}
+            helperText={isDuplicateUsername ? t('duplicateUsername') : ''}
+          />
+        </Box>
+
         <TextField
           label='E-mail'
           className='mb-4 w-1/2'
@@ -52,7 +70,7 @@ export const RegisterBasicInfo = () => {
           type='email'
           value={email}
           onChange={(e) => onEmailChange(e.target.value)}
-          onBlur={(e) => setEmailTouched(true)}
+          onBlur={(e) => onEmailBlur()}
           margin='normal'
           variant='standard'
           error={invalidEmail && emailTouched}

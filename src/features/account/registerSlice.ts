@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { post } from '../../utils/apiInterceptor';
+import { get, post } from '../../utils/apiInterceptor';
 import { IregisterInfo } from '../../interfaces/account';
 import { RootState } from '../../store';
 
@@ -18,7 +18,18 @@ export const registerNewUser = createAsyncThunk(
     return post('registerNewUser', registerInfo);
   }
 );
-
+export const checkDuplicateRegisterInfo = createAsyncThunk(
+  'checkDuplicateRegisterInfo',
+  async (_, { getState }) => {
+    const state = getState() as RootState;
+    const username = state.registerAccount.registerInfo.username;
+    const email = state.registerAccount.registerInfo.email;
+    return get('checkDuplicateUsername', {
+      username: username.trim().toLowerCase(),
+      email: email.trim().toLowerCase(),
+    });
+  }
+);
 const registerSlice = createSlice({
   name: 'registerSlice',
   initialState: {
@@ -32,6 +43,7 @@ const registerSlice = createSlice({
     confirmPassword: '',
     isLoggedIn: false,
     error: null,
+    checkDuplicateBasicInfo: false,
   },
   reducers: {
     selectRole: (state, action) => {
@@ -57,6 +69,11 @@ const registerSlice = createSlice({
     builder.addCase(registerNewUser.fulfilled, (state, action) => {
       state.registerInfo = action.payload;
       state.isLoggedIn = true;
+      return state;
+    });
+    builder.addCase(checkDuplicateRegisterInfo.fulfilled, (state, action) => {
+      state.checkDuplicateBasicInfo =
+        Array.isArray(action.payload) && action.payload.length > 0;
       return state;
     });
   },
@@ -87,6 +104,9 @@ export const selectIsPasswordValid = (state: registerState) => {
   const { password, confirmPassword } = state.registerAccount;
   return password && password.length >= 8 && password === confirmPassword;
 };
+export const selectDuplicateBasicInfo = (state: registerState) => {
+  return state.registerAccount.duplicateBasicInfo;
+};
 
 type registerState = {
   registerAccount: {
@@ -100,5 +120,6 @@ type registerState = {
     password: string;
     isLoggedIn: boolean;
     error: null;
+    duplicateBasicInfo: boolean;
   };
 };

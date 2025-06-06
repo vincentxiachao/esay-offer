@@ -43,6 +43,20 @@
       "isFavorite": true
     }
   ],
+  "checkDuplicateUsername":[
+    {
+      "username":"admin",
+      "email":"admin@chao.com"
+    },
+    {
+      "username":"john",
+      "email":"john@chao.com"
+    },
+    {
+      "username":"chao",
+      "email":"vincentxia0625@163.com"
+    }
+  ],
   "getActivityList": [
     {
       "id": "0",

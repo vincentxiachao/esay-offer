@@ -12,5 +12,8 @@
   "resetPassword": "重置密码",
   "sendResetLink": "发送重置链接",
   "newPassword": "新密码",
-  "role": "角色"
+  "role": "角色",
+  "checkForDuplicate": "检查重复",
+  "checking": "正在检查...",
+  "duplicateUsername":"重复用户名"
 }

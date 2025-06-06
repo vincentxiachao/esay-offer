@@ -11,5 +11,8 @@
   "resetPassword": "Reset Password",
   "sendResetLink": "Send Reset Link",
   "newPassword": "New Password",
-  "role": "Role"
+  "role": "Role",
+  "checkForDuplicate": "Check for duplicate ",
+  "checking": "Checking...",
+  "duplicateUsername":"Duplicate username"
 }

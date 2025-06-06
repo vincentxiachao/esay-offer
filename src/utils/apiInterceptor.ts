@@ -25,7 +25,7 @@ function configInterceptors() {
 }
 configInterceptors();
 export const get = async <T>(url: string, params?: Record<string, any>) => {
-  const res = await apiClient.get<T>(url, params);
+  const res = await apiClient.get<T>(url, { params: params });
   return res.data;
 };
 export const post = async (url: string, data: Record<any, any>) => {
