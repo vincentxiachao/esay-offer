@@ -1,7 +1,11 @@
+import { MyFamilyProvider } from '@features/family/MyFamilyContext';
+import { AddFamilyMember } from '@features/family/AddFamilyMember';
+import { FamilyMemberList } from '@features/family/FamilyMemberList';
 export default function MyFamilyPage() {
   return (
-    <main>
-      <h1>My Family Page</h1>
-    </main>
+    <MyFamilyProvider>
+      <FamilyMemberList />
+      <AddFamilyMember />
+    </MyFamilyProvider>
   );
 }

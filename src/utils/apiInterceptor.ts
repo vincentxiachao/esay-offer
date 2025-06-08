@@ -5,7 +5,7 @@ function configInterceptors() {
   const requestInterceptor = (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem('family-token');
     if (token) {
-      config.headers.Authorization = `mytoken ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   };

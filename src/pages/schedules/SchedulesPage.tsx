@@ -1,11 +1,9 @@
-import Card from '@mui/material/Card';
-import ToolBar, { ToolBarProps } from '../../components/shared/ToolBar';
+import ToolBar, { ToolBarButtonConfig } from '../../components/shared/ToolBar';
 import { ActivityListTable } from '../../features/activityList/ActivityListTable';
-import { useEffect, useRef, useState } from 'react';
-import { Checkbox, FormControlLabel, FormGroup, Switch } from '@mui/material';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
-import { manageActivity } from '../../features/activityList/activityListSlice';
+import { manageActivity } from '@features/activityList/activityListSlice';
 import AddNewActivityModal from '../../components/shared/AddNewActivityModal';
 export function SchedulesPage() {
   const [selectedActivityIds, setSelectedActivityIds] = useState<string[]>([]); // [selectedRw, setSelectedRw] = useState<number[]>([]
@@ -17,7 +15,7 @@ export function SchedulesPage() {
       dialogRef.current.handleOpen();
     }
   };
-  const buttons = [
+  const buttons: ToolBarButtonConfig[] = [
     {
       id: 'delete',
       label: 'Delete',
