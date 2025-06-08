@@ -15,27 +15,32 @@ import { I18nextProvider } from 'react-i18next';
 import i18next from './i18n.ts';
 import LoginPage from './pages/login/LoginPage.tsx';
 import RegisterPage from './pages/register/RegisterPage.tsx';
-// const handleError = () => {
-//   return redirect('/register');
-// };
+import MyFamilyPage from './pages/myFamily/MyFamilyPage.tsx';
+import { PrivateRoute } from './utils/PrivateRoute.tsx';
 
 const router = createBrowserRouter([
   {
     Component: App,
+    // 添加错误边界路由
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
         Component: Layout,
+        errorElement: <ErrorPage />,
         children: [
           { index: true, path: 'home', Component: Home },
           {
             path: 'register',
             Component: RegisterPage,
           },
-
           {
             path: 'familySchedule',
-            Component: SchedulesPage,
+            element: (
+              <PrivateRoute>
+                <SchedulesPage />
+              </PrivateRoute>
+            ),
           },
           {
             path: 'login',
@@ -43,13 +48,11 @@ const router = createBrowserRouter([
           },
           {
             path: 'myFamily',
-            Component: () => <div>My Family Page</div>,
+            Component: MyFamilyPage,
           },
         ],
       },
     ],
-    // 添加错误边界路由
-    // errorElement: <RegisterPage />,
   },
 ]);
 

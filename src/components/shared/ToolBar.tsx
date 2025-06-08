@@ -26,20 +26,16 @@ export default function ToolBar({ buttonConfigs }: ToolBarProps) {
   );
 }
 export type ToolBarProps = {
-  buttonConfigs: {
-    id: string;
-    name: string;
-    label: string;
-    variant?: 'contained' | 'outlined' | 'text';
-    icon?: any;
-    className?: string;
-    disabled?: boolean;
-    size?: 'small' | 'medium' | 'large';
-    onClick?: () => any;
-  }[];
+  buttonConfigs: ToolBarButtonConfig[];
 };
-// type Button = {
-//   id: string;
-//   name: string;
-//   variant?: 'contained' | 'outlined' | 'text';
-// };
+export type ToolBarButtonConfig = {
+  id: string;
+  name: string;
+  label: string;
+  variant?: 'contained' | 'outlined' | 'text';
+  icon?: any;
+  className?: string;
+  disabled?: boolean;
+  size?: 'small' | 'medium' | 'large';
+  onClick?: () => any;
+};

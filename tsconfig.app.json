@@ -20,7 +20,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "paths": {
+      "~": ["./src"],
+      "@features/*": ["./src/features/*"]
+    }
   },
-  "include": ["src", "src/fake-responses"]
+  "include": ["src", "src/fake-responses"],
+
 }

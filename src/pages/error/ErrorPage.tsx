@@ -1,13 +1,16 @@
 import React from 'react';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { Box, Typography, IconButton, Paper } from '@mui/material';
+import { Box, Typography, IconButton, Paper, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export function ErrorPage() {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
-    <>
-      {' '}
+    <Box>
       <IconButton
         disabled
         sx={{
@@ -17,12 +20,13 @@ export function ErrorPage() {
       >
         <ErrorOutlineIcon />
       </IconButton>
-      <Typography variant='h3' component='h1' color='error.main'>
-        出错啦！
-      </Typography>
+
       <Typography variant='body1' align='center'>
-        很抱歉，您访问的页面出现了错误。请稍后重试或联系管理员。
+        {t('errorPageMsg')}
       </Typography>
-    </>
+      <Button onClick={() => navigate('/home')}>
+        <Typography variant='body1'>{t('backToHome')}</Typography>
+      </Button>
+    </Box>
   );
 }

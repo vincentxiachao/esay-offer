@@ -15,5 +15,7 @@
   "role": "角色",
   "checkForDuplicate": "检查重复",
   "checking": "正在检查...",
-  "duplicateUsername":"重复用户名"
+  "duplicateUsername":"重复用户名",
+  "backToHome": "返回主页",
+  "errorPageMsg": "抱歉，您访问的页面不存在。"
 }

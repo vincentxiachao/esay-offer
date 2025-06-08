@@ -39,7 +39,7 @@ export function ActivityListTable({
         value ? value.map((paticipant) => paticipant).join(', ') : '',
     },
   ];
-  const paginationModel = { page: 0, pageSize: 5 };
+  const paginationModel = { page: 0, pageSize: 10 };
   return (
     <Paper className='h-full'>
       <DataGrid
@@ -49,7 +49,7 @@ export function ActivityListTable({
           handleSelectedRows([...newRowSelectionModel.ids]);
         }}
         initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[5, 10, 20]}
+        pageSizeOptions={[10, 15, 20]}
         checkboxSelection
         sx={{ border: 0 }}
       />

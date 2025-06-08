@@ -87,7 +87,7 @@ const AddNewActivityModal = forwardRef<{ handleOpen: () => void }>(
                   variant='standard'
                 />
                 <TextField
-                  className='max-w-20'
+                  className='max-w-30'
                   autoFocus
                   required
                   margin='dense'

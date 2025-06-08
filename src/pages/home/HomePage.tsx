@@ -7,9 +7,9 @@ import {
   selectFavoriteListLength,
 } from '../../features/moments/momentsListSlice';
 import { AppDispatch } from '../../store';
-import { favCounts } from '../../components/shared/MomentView';
+// import { favCounts } from '../../components/shared/MomentView';
 export default function Home() {
-  // const favCounts = useSelector(selectFavoriteListLength); // Assuming you have a selector to get the favorite count from the Redux store
+  const favCounts = useSelector(selectFavoriteListLength);
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(getMomentsList());
