@@ -43,7 +43,7 @@ const registerSlice = createSlice({
     confirmPassword: '',
     isLoggedIn: false,
     error: null,
-    checkDuplicateBasicInfo: false,
+    duplicateBasicInfo: false,
   },
   reducers: {
     selectRole: (state, action) => {
@@ -72,7 +72,7 @@ const registerSlice = createSlice({
       return state;
     });
     builder.addCase(checkDuplicateRegisterInfo.fulfilled, (state, action) => {
-      state.checkDuplicateBasicInfo =
+      state.duplicateBasicInfo =
         Array.isArray(action.payload) && action.payload.length > 0;
       return state;
     });

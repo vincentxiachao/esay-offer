@@ -48,7 +48,11 @@ const router = createBrowserRouter([
           },
           {
             path: 'myFamily',
-            Component: MyFamilyPage,
+            element: (
+              <PrivateRoute>
+                <MyFamilyPage />
+              </PrivateRoute>
+            ),
           },
         ],
       },
